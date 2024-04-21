@@ -1,0 +1,17 @@
+.icon-container {
+  height: 100%;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+::ng-deep .ngx-slider .ngx-slider-pointer {
+  background-color: #ffc71c !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-selection {
+  background: #ffc71c !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-bar {
+  background: #333333 !important;
+}
