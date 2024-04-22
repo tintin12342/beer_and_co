@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { API } from '../../environments/environment';
-import { BehaviorSubject, Observable, catchError, map, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { Beer } from '../model/beer.model';
 import { Router } from '@angular/router';
 
@@ -21,8 +21,11 @@ export class BeerService {
                 catchError((err) => {
                     return throwError(() => console.error(err));
                 }),
-                tap((beers: Beer[]) => this.$beerSubject.next(beers)),
-                map((response: Beer[]) => response.slice(0, 25))
+                map((response: Beer[]) => {
+                    const sortedArrayByName = response.sort((a, b) => a.name.localeCompare(b.name)).slice(0, 25);
+                    this.$beerSubject.next(sortedArrayByName);
+                    return sortedArrayByName;
+                })
             );
     }
 
@@ -30,7 +33,7 @@ export class BeerService {
         return this.http
             .get<Beer[]>(`${API.url}/beers/${beerId}`)
             .pipe(
-                catchError((err) => {
+                catchError(() => {
                     return throwError(() => this.router.navigate(['']));
                 })
             );

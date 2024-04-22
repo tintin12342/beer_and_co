@@ -13,6 +13,7 @@ import { BeerService } from 'src/app/services/beer.service';
 })
 export class FilterTabComponent implements OnInit {
   @Output() favoritesSelected = new EventEmitter<boolean>();
+  @Output() sortSelection = new EventEmitter<string>();
 
   beerService = inject(BeerService);
 
@@ -30,5 +31,11 @@ export class FilterTabComponent implements OnInit {
 
   onShowFavoritesSelected() {
     this.favoritesSelected.emit(this.showFavorites);
+  }
+
+  onSelectChange(target: EventTarget | null) {
+    if (target) {
+      this.sortSelection.emit((target as HTMLSelectElement).value);
+    }
   }
 }

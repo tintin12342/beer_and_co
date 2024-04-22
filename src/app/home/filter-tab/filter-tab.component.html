@@ -43,7 +43,7 @@
     </div>
     <div class="col-md-2 mb-3">
       <label for="sort" class="d-md-none"><strong>Sort</strong></label>
-      <select class="form-select" aria-label="Default select example">
+      <select class="form-select" aria-label="Default select example" (change)="onSelectChange($event.target)">
         <option value="name" selected>Name</option>
         <option value="abv">ABV</option>
       </select>

@@ -17,15 +17,30 @@ export class HomeComponent implements OnInit {
   beers: Beer[] = [];
 
   ngOnInit(): void {
+    this.getAllBeersFromApi();
+  }
+
+  getAllBeersFromApi() {
     this.beerService.getBeers().subscribe((beers: Beer[]) => this.beers = beers);
   }
 
   onFavoritesSelected(selected: boolean) {
     if (selected) {
-      const favoriteBeers = this.beers.filter(beer => this.beerService.getFavorites().includes(beer.id));
-      this.beerService.$beerSubject.next(favoriteBeers);
+      this.beers = this.beers.filter(beer => this.beerService.getFavorites().includes(beer.id));
+      this.beerService.$beerSubject.next(this.beers);
     } else {
-      this.beerService.$beerSubject.next([...this.beers]);
+      this.getAllBeersFromApi();
+      this.beerService.$beerSubject.next(this.beers);
+    }
+  }
+
+  onSortSelection(selection: string) {
+    if (selection === 'name') {
+      const sortByName = this.beers.slice().sort((a, b) => a.name.localeCompare(b.name));
+      this.beerService.$beerSubject.next(sortByName);
+    } else if (selection === 'abv') {
+      const sortByAbv = this.beers.slice().sort((a, b) => b.abv - a.abv);
+      this.beerService.$beerSubject.next(sortByAbv);
     }
   }
 }
