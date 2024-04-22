@@ -1,1 +1,13 @@
-<p>beer-details works!</p>
+<div *ngIf="$beerData | async as beer" class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ beer[0].name }}</h2>
+                    <p class="card-text">{{ beer[0].description }}</p>
+                    <p class="card-text"><strong>ABV:</strong> {{ beer[0].abv }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

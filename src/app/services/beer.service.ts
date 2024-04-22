@@ -20,4 +20,14 @@ export class BeerService {
                 map((response: Beer[]) => response.slice(0, 20))
             );
     }
+
+    getBeer(beerId: string) {
+        return this.http
+            .get<Beer[]>(`${API.url}/beers/${beerId}`)
+            .pipe(
+                catchError((err) => {
+                    return throwError(() => console.error(err));
+                })
+            );
+    }
 }

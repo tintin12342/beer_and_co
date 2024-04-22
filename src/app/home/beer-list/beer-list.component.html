@@ -14,7 +14,7 @@
                     </div>
                     <img [src]="item.image_url" class="img-fluid dimensions" alt="{{ item.name }}">
                     <div class="card-body d-flex flex-column">
-                        <a href="#"
+                        <a [routerLink]="['/beer-details', item.id]"
                             class="btn btn-outline-dark mt-auto btn-details d-flex justify-content-center gap-1"><img
                                 src="../../../assets/info-24px.svg" alt="star" width="15px"
                                 class="details-icon">DETAILS</a>
