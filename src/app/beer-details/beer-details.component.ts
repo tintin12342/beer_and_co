@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./beer-details.component.css']
 })
 export class BeerDetailsComponent {
-
+  
 }

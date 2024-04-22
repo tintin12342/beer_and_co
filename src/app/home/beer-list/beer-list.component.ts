@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { BeerService } from 'src/app/services/beer.service';
+import { Observable } from 'rxjs';
+import { Beer } from 'src/app/model/beer.model';
 
 @Component({
   selector: 'app-beer-list',
@@ -8,6 +11,26 @@ import { CommonModule } from '@angular/common';
   templateUrl: './beer-list.component.html',
   styleUrls: ['./beer-list.component.css']
 })
-export class BeerListComponent {
+export class BeerListComponent implements OnInit {
+  beerService = inject(BeerService);
+  $beerData: Observable<Beer[]> = this.beerService.getBeers();
+  favorites: number[] = JSON.parse(sessionStorage.getItem('favorites') || '[]');
 
+
+  ngOnInit(): void {
+  }
+
+  toggleFavorite(index: number) {
+    const position = this.favorites.indexOf(index);
+    if (position === -1) {
+      this.favorites.push(index);
+    } else {
+      this.favorites.splice(position, 1);
+    }
+    sessionStorage.setItem('favorites', JSON.stringify(this.favorites));
+  }
+
+  isFavorite(index: number): boolean {
+    return this.favorites.includes(index);
+  }
 }
