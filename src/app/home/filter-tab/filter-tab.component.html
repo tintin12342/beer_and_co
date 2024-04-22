@@ -1,28 +1,28 @@
-<div class="container-fluid px-4">
+<div class="container-fluid px-4 sticky">
   <!-- First row containing filters -->
   <div class="row justify-content-between d-md-flex d-none">
     <!-- Filter by name -->
-    <div class="col-md-2 mt-3">
+    <div class="col-xl-2 col-md-3 mt-3">
       <label for="filterByName"><strong>Filter by name</strong></label>
     </div>
     <!-- Alcohol content filter -->
-    <div class="col-md-2 mt-3">
+    <div class="col-xl-2 col-md-3 mt-3">
       <label for="alcoholContent"><strong>Alcohol content (%)</strong></label>
     </div>
     <!-- Show only favorites checkbox -->
-    <div class="col-md-2 mt-3">
+    <div class="col-xl-2 col-md-3 mt-3">
       <label for="showFavorites" style="cursor: pointer;"><strong>Show only favorites</strong></label>
     </div>
     <!-- Sort dropdown -->
-    <div class="col-md-2 mt-3">
+    <div class="col-xl-2 col-md-3 mt-3">
       <label for="sort"><strong>Sort</strong></label>
     </div>
   </div>
 
   <!-- Second row containing interactive elements -->
-  <div class="row gap-0 gap-md-3 align-items-center justify-content-between">
+  <div class="row align-items-center justify-content-between">
     <!-- Filter by name input -->
-    <div class="col-md-2 mb-3 mt-3">
+    <div class="col-xl-2 col-md-3 mb-3 mt-3">
       <label for="filterByName" class="d-md-none"><strong>Filter by name</strong></label>
       <div class="input-group">
         <div class="input-group-prepend">
@@ -42,14 +42,14 @@
     </div>
 
     <!-- Alcohol content slider -->
-    <div class="col-md-2 mb-3">
-      <label for="alcoholContent" class="d-md-none"><strong>Alcohol content (%)</strong></label>
+    <div class="col-xl-2 col-md-3 mb-3">
+      <label for="alcoholContent" class="d-md-none mb-3"><strong>Alcohol content (%)</strong></label>
       <ngx-slider class="custom-slider" [(value)]="lowValue" [(highValue)]="highValue" [options]="options"
         (userChangeEnd)="onSliderChange($event)"></ngx-slider>
     </div>
 
     <!-- Show only favorites checkbox -->
-    <div class="col-md-2 mb-3">
+    <div class="col-xl-2 col-md-3 mb-3 mt-3">
       <label for="showFavorites" class="d-md-none"><strong>Show only favorites</strong></label>
       <div class="form-check">
         <!-- Checkbox input -->
@@ -60,7 +60,7 @@
     </div>
 
     <!-- Sort dropdown -->
-    <div class="col-md-2 mb-3">
+    <div class="col-xl-2 col-md-3 mb-3">
       <label for="sort" class="d-md-none"><strong>Sort</strong></label>
       <!-- Dropdown select -->
       <select class="form-select" aria-label="Default select example" (change)="onSelectChange($event.target)">
