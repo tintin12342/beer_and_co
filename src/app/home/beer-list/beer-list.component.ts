@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BeerService } from 'src/app/services/beer.service';
 import { Observable } from 'rxjs';
@@ -15,8 +15,13 @@ export class BeerListComponent implements OnInit {
   beerService = inject(BeerService);
   $beerData: Observable<Beer[]> = this.beerService.getBeers();
   favorites: number[] = JSON.parse(sessionStorage.getItem('favorites') || '[]');
+  showScrollButton = false;
 
-
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.scrollFunction();
+  }
+  
   ngOnInit(): void {
   }
 
@@ -32,5 +37,18 @@ export class BeerListComponent implements OnInit {
 
   isFavorite(index: number): boolean {
     return this.favorites.includes(index);
+  }
+
+  scrollFunction() {
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      this.showScrollButton = true;
+    } else {
+      this.showScrollButton = false;
+    }
+  }
+
+  backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
 }

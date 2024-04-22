@@ -1,4 +1,21 @@
 :root {
-    --primary: #ffc71c;
-    --card-background: #f2f4f7;
+  --primary: #ffc71c;
+  --primary-dark: #e3ab06;
+  --card-background: #f2f4f7;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--card-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e3ab06;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f7bb08;
 }
