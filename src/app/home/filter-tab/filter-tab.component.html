@@ -1,78 +1,52 @@
 <div class="container-fluid px-4">
-    <!-- Labels row -->
-    <div class="row justify-content-between d-md-flex d-none">
-      <div class="col-md-2 mt-3">
-        <label for="filterByName"><strong>Filter by name</strong></label>
-      </div>
-      <div class="col-md-2 mt-3">
-        <label for="alcoholContent"><strong>Alcohol content (%)</strong></label>
-      </div>
-      <div class="col-md-2 mt-3">
-        <label for="showFavorites"><strong>Show only favorites</strong></label>
-      </div>
-      <div class="col-md-2 mt-3">
-        <label for="sort"><strong>Sort</strong></label>
-      </div>
+  <div class="row justify-content-between d-md-flex d-none">
+    <div class="col-md-2 mt-3">
+      <label for="filterByName"><strong>Filter by name</strong></label>
     </div>
-    <!-- Input fields row -->
-    <div class="row gap-0 gap-md-3 align-items-center justify-content-between">
-      <div class="col-md-2 mb-3 mt-3">
-        <label for="filterByName" class="d-md-none"><strong>Filter by name</strong></label>
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text icon-container" id="filter-by">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-search"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"
-                />
-              </svg>
-            </span>
-          </div>
-          <input
-            type="text"
-            class="form-control"
-            id="filterByName"
-            aria-describedby="filter-by"
-          />
-        </div>
-      </div>
-      <div class="col-md-2 mb-3">
-        <label for="alcoholContent" class="d-md-none"><strong>Alcohol content (%)</strong></label>
-        <ngx-slider
-          class="custom-slider"
-          [(value)]="minValue"
-          [(highValue)]="maxValue"
-          [options]="options"
-        ></ngx-slider>
-      </div>
-      <div class="col-md-2 mb-3">
-        <label for="showFavorites" class="d-md-none"><strong>Show only favorites</strong></label>
-        <div class="form-check">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            id="showFavorites"
-            [ngStyle]="{ 'background-color': showFavorites ? '#ffc71c' : '' }"
-            [(ngModel)]="showFavorites"
-          />
-        </div>
-      </div>
-      <div class="col-md-2 mb-3">
-        <label for="sort" class="d-md-none"><strong>Sort</strong></label>
-        <select class="form-select" aria-label="Default select example">
-          <option disabled selected>Sort by name</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </select>
-      </div>
+    <div class="col-md-2 mt-3">
+      <label for="alcoholContent"><strong>Alcohol content (%)</strong></label>
+    </div>
+    <div class="col-md-2 mt-3">
+      <label for="showFavorites" style="cursor: pointer;"><strong>Show only favorites</strong></label>
+    </div>
+    <div class="col-md-2 mt-3">
+      <label for="sort"><strong>Sort</strong></label>
     </div>
   </div>
-  
+  <div class="row gap-0 gap-md-3 align-items-center justify-content-between">
+    <div class="col-md-2 mb-3 mt-3">
+      <label for="filterByName" class="d-md-none"><strong>Filter by name</strong></label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text icon-container" id="filter-by">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+              viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+            </svg>
+          </span>
+        </div>
+        <input type="text" class="form-control" id="filterByName" aria-describedby="filter-by" />
+      </div>
+    </div>
+    <div class="col-md-2 mb-3">
+      <label for="alcoholContent" class="d-md-none"><strong>Alcohol content (%)</strong></label>
+      <ngx-slider class="custom-slider" [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
+    </div>
+    <div class="col-md-2 mb-3">
+      <label for="showFavorites" class="d-md-none"><strong>Show only favorites</strong></label>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="showFavorites" style="cursor: pointer;"
+          [ngStyle]="{ 'background-color': showFavorites ? '#ffc71c' : '' }" [(ngModel)]="showFavorites"
+          (ngModelChange)="onShowFavoritesSelected()" />
+      </div>
+    </div>
+    <div class="col-md-2 mb-3">
+      <label for="sort" class="d-md-none"><strong>Sort</strong></label>
+      <select class="form-select" aria-label="Default select example">
+        <option value="name" selected>Name</option>
+        <option value="abv">ABV</option>
+      </select>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,15 @@
   border-top-right-radius: 0;
 }
 
+.form-check-input:checked {
+  border-color: #333 !important;
+}
+
+.form-check-input:focus {
+  border-color: #333 !important;
+  box-shadow: 0 0 0 .25rem rgba(255, 199, 28, .25);
+}
+
 ::ng-deep .ngx-slider .ngx-slider-pointer {
   background-color: #ffc71c !important;
 }

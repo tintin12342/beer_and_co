@@ -8,8 +8,8 @@
                             <h5 class="card-title m-0">{{ item.name }}</h5>
                         </div>
                         <div>
-                            <img src="{{ isFavorite(i) ? '../../../assets/star-selected-24px.svg' : '../../../assets/star_outline-24px.svg' }}"
-                                alt="star" (click)="toggleFavorite(i)" type="button">
+                            <img src="{{ isFavorite(item.id) ? '../../../assets/star-selected-24px.svg' : '../../../assets/star_outline-24px.svg' }}"
+                                alt="star" (click)="toggleFavorite(item.id)" type="button">
                         </div>
                     </div>
                     <img [src]="item.image_url" class="img-fluid dimensions" alt="{{ item.name }}">
