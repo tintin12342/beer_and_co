@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { API } from '../../environments/environment';
-import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, debounceTime, distinctUntilChanged, map, throwError } from 'rxjs';
 import { Beer } from '../model/beer.model';
 import { Router } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class BeerService {
     private http = inject(HttpClient);
-    private router = inject(Router)
+    private router = inject(Router);
 
     $beerSubject: BehaviorSubject<Beer[]> = new BehaviorSubject<Beer[]>([]);
 

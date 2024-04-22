@@ -1,23 +1,32 @@
 <div class="container-fluid px-4">
+  <!-- First row containing filters -->
   <div class="row justify-content-between d-md-flex d-none">
+    <!-- Filter by name -->
     <div class="col-md-2 mt-3">
       <label for="filterByName"><strong>Filter by name</strong></label>
     </div>
+    <!-- Alcohol content filter -->
     <div class="col-md-2 mt-3">
       <label for="alcoholContent"><strong>Alcohol content (%)</strong></label>
     </div>
+    <!-- Show only favorites checkbox -->
     <div class="col-md-2 mt-3">
       <label for="showFavorites" style="cursor: pointer;"><strong>Show only favorites</strong></label>
     </div>
+    <!-- Sort dropdown -->
     <div class="col-md-2 mt-3">
       <label for="sort"><strong>Sort</strong></label>
     </div>
   </div>
+
+  <!-- Second row containing interactive elements -->
   <div class="row gap-0 gap-md-3 align-items-center justify-content-between">
+    <!-- Filter by name input -->
     <div class="col-md-2 mb-3 mt-3">
       <label for="filterByName" class="d-md-none"><strong>Filter by name</strong></label>
       <div class="input-group">
         <div class="input-group-prepend">
+          <!-- Search icon -->
           <span class="input-group-text icon-container" id="filter-by">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
               viewBox="0 0 16 16">
@@ -26,24 +35,36 @@
             </svg>
           </span>
         </div>
-        <input type="text" class="form-control" id="filterByName" aria-describedby="filter-by" />
+        <!-- Filter input -->
+        <input type="text" class="form-control" id="filterByName" aria-describedby="filter-by"
+          (input)="onFilterByName($event.target)" />
       </div>
     </div>
+
+    <!-- Alcohol content slider -->
     <div class="col-md-2 mb-3">
       <label for="alcoholContent" class="d-md-none"><strong>Alcohol content (%)</strong></label>
-      <ngx-slider class="custom-slider" [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
+      <ngx-slider class="custom-slider" [(value)]="lowValue" [(highValue)]="highValue" [options]="options"
+        (userChangeEnd)="onSliderChange($event)"></ngx-slider>
     </div>
+
+    <!-- Show only favorites checkbox -->
     <div class="col-md-2 mb-3">
       <label for="showFavorites" class="d-md-none"><strong>Show only favorites</strong></label>
       <div class="form-check">
+        <!-- Checkbox input -->
         <input class="form-check-input" type="checkbox" id="showFavorites" style="cursor: pointer;"
           [ngStyle]="{ 'background-color': showFavorites ? '#ffc71c' : '' }" [(ngModel)]="showFavorites"
           (ngModelChange)="onShowFavoritesSelected()" />
       </div>
     </div>
+
+    <!-- Sort dropdown -->
     <div class="col-md-2 mb-3">
       <label for="sort" class="d-md-none"><strong>Sort</strong></label>
+      <!-- Dropdown select -->
       <select class="form-select" aria-label="Default select example" (change)="onSelectChange($event.target)">
+        <!-- Sort options -->
         <option value="name" selected>Name</option>
         <option value="abv">ABV</option>
       </select>

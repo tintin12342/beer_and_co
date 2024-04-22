@@ -1,2 +1,6 @@
-<app-filter-tab (favoritesSelected)="onFavoritesSelected($event)" (sortSelection)="onSortSelection($event)"></app-filter-tab>
+<app-filter-tab 
+    (favoritesSelected)="onFavoritesSelected($event)"
+    (sortSelection)="onSortSelection($event)"
+    (filterByName)="onFilterByName($event)"
+    ></app-filter-tab>
 <app-beer-list></app-beer-list>

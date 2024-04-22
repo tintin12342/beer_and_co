@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
@@ -11,23 +11,20 @@ import { BeerService } from 'src/app/services/beer.service';
   templateUrl: './filter-tab.component.html',
   styleUrls: ['./filter-tab.component.css']
 })
-export class FilterTabComponent implements OnInit {
+export class FilterTabComponent {
   @Output() favoritesSelected = new EventEmitter<boolean>();
   @Output() sortSelection = new EventEmitter<string>();
+  @Output() filterByName = new EventEmitter<string>();
 
   beerService = inject(BeerService);
 
-  minValue: number = 100;
-  maxValue: number = 400;
+  lowValue: number = 4;
+  highValue: number = 37;
   options: Options = {
     floor: 0,
-    ceil: 500
+    ceil: 55
   };
-  filterByName: string = '';
   showFavorites: boolean = false;
-
-  ngOnInit(): void {
-  }
 
   onShowFavoritesSelected() {
     this.favoritesSelected.emit(this.showFavorites);
@@ -37,5 +34,15 @@ export class FilterTabComponent implements OnInit {
     if (target) {
       this.sortSelection.emit((target as HTMLSelectElement).value);
     }
+  }
+
+  onFilterByName(target: EventTarget | null) {
+    if (target) {
+      this.filterByName.emit((target as HTMLInputElement).value);
+    }
+  }
+
+  onSliderChange(event: Event) {
+    console.log(event)
   }
 }
