@@ -5,6 +5,7 @@ import { BeerListComponent } from './beer-list/beer-list.component';
 import { BeerService } from '../services/beer.service';
 import { Beer } from '../model/beer.model';
 import { Subject, Subscription, debounceTime, distinctUntilChanged, map, switchMap, tap, timer } from 'rxjs';
+import { ChangeContext } from '@angular-slider/ngx-slider';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +16,13 @@ import { Subject, Subscription, debounceTime, distinctUntilChanged, map, switchM
 })
 export class HomeComponent implements OnInit, OnDestroy {
   beerService = inject(BeerService);
-  beers: Beer[] = [];
-  inputValue: string = '';
-  filterByNameSubject = new Subject<string>();
   subscription: Subscription = new Subscription();
+  filterByNameSubject = new Subject<string>();
+
+  beers: Beer[] = [];
+  filteredBeers: Beer[] = [];
+
+  filterInputValue: string = '';
   favoriteSelected: boolean = false;
 
   ngOnInit(): void {
@@ -32,11 +36,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       debounceTime(300),
       switchMap(() => this.beerService.getBeers())
     ).subscribe((beers: Beer[]) => {
-      const filteredBeers = beers.filter(beer =>
+      this.beers = beers.filter(beer =>
         (!this.favoriteSelected || this.beerService.getFavorites().includes(beer.id)) &&
-        beer.name.toLowerCase().includes(this.inputValue.toLowerCase())
+        beer.name.toLowerCase().includes(this.filterInputValue.toLowerCase())
       );
-      this.beerService.$beerSubject.next(filteredBeers);
+      this.beerService.$beerSubject.next(this.beers);
     });
 
   }
@@ -60,10 +64,18 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.beerService.$beerSubject.next(sortByAbv);
     }
   }
-  onFilterByName(inputValue: string) {
-    this.inputValue = inputValue;
-    this.filterByNameSubject.next(inputValue);
 
+  onFilterByName(inputValue: string) {
+    this.filterInputValue = inputValue;
+    this.filterByNameSubject.next(inputValue);
+  }
+
+  onSliderChange(change: ChangeContext) {
+    const highValue = change.highValue || 55;
+    const filteredAbvRangeBeers = this.beers.filter(beer =>
+      beer.abv >= change.value && beer.abv <= highValue
+    );
+    this.beerService.$beerSubject.next(filteredAbvRangeBeers)
   }
 
   ngOnDestroy(): void {

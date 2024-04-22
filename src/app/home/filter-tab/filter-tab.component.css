@@ -13,6 +13,10 @@
   box-shadow: 0 0 0 .25rem rgba(255, 199, 28, .25);
 }
 
+::ng-deep .ngx-slider {
+  margin-top: 0 !important;
+}
+
 ::ng-deep .ngx-slider .ngx-slider-pointer {
   background-color: #ffc71c !important;
 }
@@ -23,4 +27,12 @@
 
 ::ng-deep .ngx-slider .ngx-slider-bar {
   background: #333333 !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-pointer.ngx-slider-active:after {
+  background-color: #333333 !important;
+}
+
+::ng-deep .ngx-slider .ngx-slider-bubble {
+  top: 20px;
 }

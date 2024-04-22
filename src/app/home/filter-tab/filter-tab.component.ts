@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
+import { ChangeContext, LabelType, NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { BeerService } from 'src/app/services/beer.service';
 
 @Component({
@@ -15,14 +15,20 @@ export class FilterTabComponent {
   @Output() favoritesSelected = new EventEmitter<boolean>();
   @Output() sortSelection = new EventEmitter<string>();
   @Output() filterByName = new EventEmitter<string>();
+  @Output() sliderChange = new EventEmitter<ChangeContext>();
 
   beerService = inject(BeerService);
 
-  lowValue: number = 4;
-  highValue: number = 37;
+  lowValue: number = 0;
+  highValue: number = 55;
   options: Options = {
     floor: 0,
-    ceil: 55
+    ceil: 55,
+    showSelectionBarFromValue: 0,
+    hideLimitLabels: true,
+    translate: (value: number): string => {
+      return value + '%';
+    }
   };
   showFavorites: boolean = false;
 
@@ -42,7 +48,7 @@ export class FilterTabComponent {
     }
   }
 
-  onSliderChange(event: Event) {
-    console.log(event)
+  onSliderChange(change: ChangeContext) {
+    this.sliderChange.emit(change);
   }
 }
