@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FilterTabComponent } from './filter-tab/filter-tab.component';
 import { BeerListComponent } from './beer-list/beer-list.component';
 import { BeerService } from '../services/beer.service';
 import { Beer } from '../model/beer.model';
-import { Subject, Subscription, debounceTime, distinctUntilChanged, map, switchMap, tap, timer } from 'rxjs';
 import { ChangeContext } from '@angular-slider/ngx-slider';
 
 @Component({
@@ -14,73 +13,77 @@ import { ChangeContext } from '@angular-slider/ngx-slider';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   beerService = inject(BeerService);
-  subscription: Subscription = new Subscription();
-  filterByNameSubject = new Subject<string>();
-
+  
   beers: Beer[] = [];
-  filteredBeers: Beer[] = [];
 
   filterInputValue: string = '';
   favoriteSelected: boolean = false;
+  sliderChange: ChangeContext = { value: 0, highValue: 55, pointerType: 1 };
+  sortBy: string = 'name';
 
   ngOnInit(): void {
     this.getAllBeersFromApi();
   }
 
   getAllBeersFromApi() {
-    this.beerService.getBeers().subscribe((beers: Beer[]) => this.beers = beers);
-
-    this.subscription = this.filterByNameSubject.pipe(
-      debounceTime(300),
-      switchMap(() => this.beerService.getBeers())
-    ).subscribe((beers: Beer[]) => {
-      this.beers = beers.filter(beer =>
-        (!this.favoriteSelected || this.beerService.getFavorites().includes(beer.id)) &&
-        beer.name.toLowerCase().includes(this.filterInputValue.toLowerCase())
-      );
-      this.beerService.$beerSubject.next(this.beers);
+    this.beerService.getBeers().subscribe((beers: Beer[]) => {
+      this.beers = beers;
+      this.beerService.$beerSubject.next(beers);
     });
-
-  }
-
-  onFavoritesSelected(selected: boolean) {
-    this.favoriteSelected = selected;
-    if (selected) {
-      const favoriteBeers = this.beers.filter(beer => this.beerService.getFavorites().includes(beer.id));
-      this.beerService.$beerSubject.next(favoriteBeers);
-    } else {
-      this.beerService.$beerSubject.next(this.beers);
-    }
-  }
-
-  onSortSelection(selection: string) {
-    if (selection === 'name') {
-      const sortByName = this.beers.sort((a, b) => a.name.localeCompare(b.name));
-      this.beerService.$beerSubject.next(sortByName);
-    } else if (selection === 'abv') {
-      const sortByAbv = this.beers.sort((a, b) => b.abv - a.abv);
-      this.beerService.$beerSubject.next(sortByAbv);
-    }
   }
 
   onFilterByName(inputValue: string) {
     this.filterInputValue = inputValue;
-    this.filterByNameSubject.next(inputValue);
+    this.conditionsCheck();
+
+    this.beers.filter(beer =>
+      beer.name.toLowerCase().includes(this.filterInputValue.toLowerCase())
+    );
   }
 
   onSliderChange(change: ChangeContext) {
-    const highValue = change.highValue || 55;
-    const filteredAbvRangeBeers = this.beers.filter(beer =>
-      beer.abv >= change.value && beer.abv <= highValue
-    );
-    this.beerService.$beerSubject.next(filteredAbvRangeBeers)
+    this.sliderChange = change;
+    this.conditionsCheck();
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
+  onFavoritesSelected(selected: boolean) {
+    this.favoriteSelected = selected;
+    this.conditionsCheck();
+  }
+
+  onSortSelection(selection: string) {
+    this.sortBy = selection;
+    this.conditionsCheck();
+  }
+
+  conditionsCheck() {
+    let filteredList: Beer[] = this.beers.slice();
+
+    // favorite check
+    if (this.favoriteSelected) {
+      filteredList = filteredList.filter(beer => this.beerService.getFavorites().includes(beer.id));
     }
+
+    // slider range check
+    const highValue = this.sliderChange.highValue || 55;
+    filteredList = filteredList.filter(beer => beer.abv >= this.sliderChange.value && beer.abv <= highValue);
+
+    // search input check
+    if (this.filterInputValue.trim() !== '') {
+      const searchTerm = this.filterInputValue.toLowerCase();
+      filteredList = filteredList.filter(beer => beer.name.toLowerCase().includes(searchTerm));
+    }
+
+    // sort check
+    if (this.sortBy === 'name') {
+      filteredList.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (this.sortBy === 'abv') {
+      filteredList.sort((a, b) => b.abv - a.abv);
+    }
+
+    // save conditioned list
+    this.beerService.$beerSubject.next(filteredList);
   }
 }
