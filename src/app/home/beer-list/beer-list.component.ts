@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BeerService } from 'src/app/services/beer.service';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './beer-list.component.html',
   styleUrls: ['./beer-list.component.css']
 })
-export class BeerListComponent implements OnInit {
+export class BeerListComponent {
   beerService = inject(BeerService);
 
   $beerData: Observable<Beer[]> = this.beerService.$beerSubject;
@@ -23,9 +23,6 @@ export class BeerListComponent implements OnInit {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.scrollFunction();
-  }
-  
-  ngOnInit(): void {
   }
 
   toggleFavorite(index: number) {

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ChangeContext, LabelType, NgxSliderModule, Options } from '@angular-slider/ngx-slider';
+import { ChangeContext, NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { BeerService } from 'src/app/services/beer.service';
 
 @Component({
